@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface TemporaryUserRepository extends JpaRepository<TemporaryUser, Long> {
-    Optional<TemporaryUser> findTopByOrderByRegistrationTimeDesc();
+    Optional<TemporaryUser> findTopByOrderByRegistrationTimeDesc(); // 최근 등록된 사용자 찾기
 
-    void deleteAllByRegistrationTimeBefore(LocalDateTime cutoffTime);
+    void deleteAllByRegistrationTimeBefore(LocalDateTime cutoffTime); // 5분 이전 사용자 삭제
 }

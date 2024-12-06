@@ -25,5 +25,22 @@ public class UserRegistrationService {
     public Optional<UserRegistration> getUserById(Long id) {
         return repository.findById(id);
     }
+
+    // 유저 수정
+    public UserRegistration updateUser(Long id, UserRegistration updatedUser) {
+        return repository.findById(id).map(existingUser -> {
+            existingUser.setName(updatedUser.getName());
+            existingUser.setPhotoPath(updatedUser.getPhotoPath());
+            existingUser.setAccessStart(updatedUser.getAccessStart());
+            existingUser.setAccessEnd(updatedUser.getAccessEnd());
+            existingUser.setRfid(updatedUser.getRfid());
+            return repository.save(existingUser);
+        }).orElseThrow(() -> new IllegalArgumentException("User with ID " + id + " not found"));
+    }
+
+    // 유저 삭제
+    public void deleteUser(Long id) {
+        repository.deleteById(id);
+    }
 }
 

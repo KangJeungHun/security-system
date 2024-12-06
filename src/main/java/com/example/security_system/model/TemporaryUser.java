@@ -11,6 +11,8 @@ public class TemporaryUser {
 
     private String rfid; // RFID 정보
 
+    private String name; // 유저 이름 추가
+
     private LocalDateTime registrationTime; // 등록 시간
 
     // Getters and Setters
@@ -30,6 +32,14 @@ public class TemporaryUser {
         this.rfid = rfid;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public LocalDateTime getRegistrationTime() {
         return registrationTime;
     }
@@ -37,4 +47,6 @@ public class TemporaryUser {
     public void setRegistrationTime(LocalDateTime registrationTime) {
         this.registrationTime = registrationTime;
     }
+
+
 }

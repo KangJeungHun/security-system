@@ -10,11 +10,13 @@ public class AccessLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long logId;
 
+    private String name; // 유저 이름 추가
+
     private Long userId;
 
     private LocalDateTime timestamp;
 
-    private String result;
+    private Boolean result;
 
     private String method;
 
@@ -25,6 +27,14 @@ public class AccessLog {
 
     public void setLogId(Long logId) {
         this.logId = logId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getUserId() {
@@ -43,11 +53,11 @@ public class AccessLog {
         this.timestamp = timestamp;
     }
 
-    public String getResult() {
+    public Boolean getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Boolean result) {
         this.result = result;
     }
 

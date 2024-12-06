@@ -27,6 +27,19 @@ public class UserRegistrationController {
         return service.registerUser(user);
     }
 
+    // 유저 수정
+    @PutMapping("/{id}")
+    public UserRegistration updateUser(@PathVariable Long id, @RequestBody UserRegistration updatedUser) {
+        return service.updateUser(id, updatedUser);
+    }
+
+    // 유저 삭제
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        service.deleteUser(id);
+        return "User with ID " + id + " has been deleted.";
+    }
+
     // 전체 유저 목록 조회
     @GetMapping
     public List<UserRegistration> getAllUsers() {

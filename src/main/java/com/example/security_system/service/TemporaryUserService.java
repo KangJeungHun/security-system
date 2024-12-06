@@ -1,12 +1,13 @@
 package com.example.security_system.service;
 
 import com.example.security_system.model.TemporaryUser;
+import com.example.security_system.model.UserRegistration;
 import com.example.security_system.repository.TemporaryUserRepository;
+import com.example.security_system.repository.UserRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.scheduling.annotation.Scheduled;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -14,12 +15,16 @@ import java.util.Optional;
 public class TemporaryUserService {
 
     @Autowired
-    private TemporaryUserRepository repository;
+    private TemporaryUserRepository repository; // static 제거
+
+    @Autowired
+    private UserRegistrationRepository userRepository; // static 제거
 
     // 임시 유저 등록
-    public TemporaryUser registerTemporaryUser(String rfid) {
+    public TemporaryUser registerTemporaryUser(String rfid, String name) {
         TemporaryUser tempUser = new TemporaryUser();
         tempUser.setRfid(rfid);
+        tempUser.setName(name); // 이름 설정
         tempUser.setRegistrationTime(LocalDateTime.now());
         return repository.save(tempUser);
     }
@@ -29,16 +34,11 @@ public class TemporaryUserService {
         return repository.findTopByOrderByRegistrationTimeDesc();
     }
 
-    // 5분 이상 지난 임시 유저 삭제 (트랜잭션 활성화)
-    @Transactional
+    // 5분 이상 지난 임시 유저 삭제
     public void cleanupOldTemporaryUsers() {
         LocalDateTime cutoffTime = LocalDateTime.now().minusMinutes(5);
         repository.deleteAllByRegistrationTimeBefore(cutoffTime);
     }
 
-    // 주기적으로 오래된 임시 유저를 삭제 (1분 간격)
-    @Scheduled(fixedRate = 60000) // 매 1분마다 실행
-    public void cleanupTemporaryUsers() {
-        cleanupOldTemporaryUsers(); // 트랜잭션 범위 내 메서드를 호출
-    }
+
 }

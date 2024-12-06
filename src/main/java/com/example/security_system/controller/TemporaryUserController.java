@@ -12,17 +12,18 @@ import java.util.Optional;
 public class TemporaryUserController {
 
     @Autowired
-    private TemporaryUserService service;
+    private TemporaryUserService service; // static 의존성 변경
 
     // RFID 등록 API
     @PostMapping
-    public TemporaryUser registerTemporaryUser(@RequestParam String rfid) {
-        return service.registerTemporaryUser(rfid);
+    public TemporaryUser registerTemporaryUser(@RequestParam String rfid, @RequestParam String name) {
+        return service.registerTemporaryUser(rfid, name);
     }
 
+
     // 최근 등록된 임시 유저 반환 API
-    @GetMapping
-    public Optional<TemporaryUser> getRecentTemporaryUser() {
-        return service.getRecentTemporaryUser();
+    @GetMapping("/recent")
+    public TemporaryUser getRecentTemporaryUser() {
+        return service.getRecentTemporaryUser().orElse(null); // static 메서드 제거
     }
 }
